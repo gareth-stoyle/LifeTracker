@@ -2,47 +2,55 @@ $(function() {
     /**
      * on page load, check if day is sunday or not, fill journal section based on this information
      */
+    let colors = [
+        "purple",
+        "blue",
+        "green",
+        "orange"
+    ];
+    let randomIndex = Math.floor(Math.random() * colors.length);
+    $("body").addClass(colors[randomIndex]);
     const date = new Date();
     // returns day of week as number from 1-7
     let day = date.getDay();
     if (day == 7) {
         // populate journal div for weekly reflection
-        $('#journal').append("<div class='form-group'><textarea class='form-control' rows='3' id='journal_wins' placeholder='Wins this week...' /></div>");
-        $('#journal').append("<div class='form-group'><textarea class='form-control' rows='3' id='journal_challenges' placeholder='Challenges this week...' /></div>");
-        $('#journal').append("<div class='form-group'><textarea class='form-control' rows='3' id='journal_focus' placeholder='Focus for next week...' /></div>");
+        $('#journal').append("<div class='form-group'><textarea class='form-control' rows='3' id='journal_wins' placeholder='Wins this week...' />");
+        $('#journal').append("<div class='form-group'><textarea class='form-control' rows='3' id='journal_challenges' placeholder='Challenges this week...' /><");
+        $('#journal').append("<div class='form-group'><textarea class='form-control' rows='3' id='journal_focus' placeholder='Focus for next week...' />");
     } else {
         // populate journal div for daily reflection
-        $('#journal').append("<div class='form-group'><textarea class='form-control' rows='3' id='journal_reflect' placeholder='How was today?' /></div>");
-        $('#journal').append("<div class='form-group'><textarea class='form-control' rows='3' id='journal_focus' placeholder='Focus for tomorrow...' /></div>");
+        $('#journal').append("<div class='form-group'><textarea class='form-control' rows='3' id='journal_reflect' placeholder='How was today?' />");
+        $('#journal').append("<div class='form-group'><textarea class='form-control' rows='3' id='journal_focus' placeholder='Focus for tomorrow...' />");
     }
 });
 
-function displayMartialArts() {
+$(document).on('click', '#display_martial_arts', function(e){
     /**
      * provide inputs for logging martial arts
      */
     $('#martial_arts').html('');
-    $('#martial_arts').append("<h2>Martial Arts</h2>");
-    $('#martial_arts').append("<div class='form-group'><input id='martial_title' class='form-control' type='text' name='title' placeholder='Title' /></div>");
-    $('#martial_arts').append("<div class='form-group'><input id='martial_h1' class='form-control' type='text' name='h1' placeholder='Heading' /></div>");
-    $('#martial_arts').append("<div class='form-group'><textarea class='form-control' rows='3' id='martial_p1' placeholder='Description' /></div>");
-    $('#martial_arts').append("<div class='form-group'><input id='martial_h2' class='form-control' type='text' name='h2' placeholder='Heading' /></div>");
-    $('#martial_arts').append("<div class='form-group'><textarea class='form-control' rows='3' id='martial_p2' placeholder='Description' /></div>");
-    $('#martial_arts').append("<div class='form-group'><input id='martial_h3' class='form-control' type='text' name='h3' placeholder='Heading' /></div>");
-    $('#martial_arts').append("<div class='form-group'><textarea class='form-control' rows='3' id='martial_p3' placeholder='Description' /></div>");
+    $('#martial_arts').append("<h2>Martial Arts🥷🏼</h2>");
+    $('#martial_arts').append("<div class='form-group'><input id='martial_title' class='form-control' type='text' name='title' placeholder='Title' />");
+    $('#martial_arts').append("<div class='form-group'><input id='martial_h1' class='form-control' type='text' name='h1' placeholder='Heading' />");
+    $('#martial_arts').append("<div class='form-group'><textarea class='form-control' rows='3' id='martial_p1' placeholder='Description' />");
+    $('#martial_arts').append("<div class='form-group'><input id='martial_h2' class='form-control' type='text' name='h2' placeholder='Heading' />");
+    $('#martial_arts').append("<div class='form-group'><textarea class='form-control' rows='3' id='martial_p2' placeholder='Description' />");
+    $('#martial_arts').append("<div class='form-group'><input id='martial_h3' class='form-control' type='text' name='h3' placeholder='Heading' />");
+    $('#martial_arts').append("<div class='form-group'><textarea class='form-control' rows='3' id='martial_p3' placeholder='Description' />");
     // button to remove martial arts section
-    $('#martial_arts').append("<input class='btn btn-primary' type='button' value='Remove Section' onclick='removeMartialArts()' />");
-}
+    $('#martial_arts').append("<input class='btn btn-danger' type='button' value='Remove Section' id='remove_martial_arts' />");
+});
 
-function removeMartialArts() {
+$(document).on('click', '#remove_martial_arts', function(e){
     /**
      * remove martial arts section
      */
     $('#martial_arts').html('');
-    $('#martial_arts').append("<input class='btn btn-primary' type='button' value='Log Martial Arts' onclick='displayMartialArts()' />");
-}
+    $('#martial_arts').append("<input class='btn btn-dark' type='button' value='Log Martial Arts' id='display_martial_arts' />");
+});
 
-function addLog() {
+$(document).on('click', '#add_log', function(e){
     /**
      * Log various entries to their respective places using calls to logger functions
      */
@@ -67,7 +75,7 @@ function addLog() {
     let martial_p3 = $('#martial_p3').val();
 
     if (cs_hours != '' && msc_hours != '' && b2a_hours != '' && random_hours != '') {
-        logProdictivity(cs_hours, msc_hours, b2a_hours, random_hours);
+        logProductivity(cs_hours, msc_hours, b2a_hours, random_hours);
     } else {
         alert("Information incomplete!");
         return;
@@ -102,11 +110,11 @@ function addLog() {
         }
     }
 
-    location.href = 'summary.php';
-}
+    setTimeout(function(){location.href = 'summary.php';},1000);
+});
 
 
-function logProdictivity(cs_hours, msc_hours, b2a_hours, random_hours) {
+function logProductivity(cs_hours, msc_hours, b2a_hours, random_hours) {
     /**
      * Log hours worked to database
      */
@@ -121,13 +129,13 @@ function logProdictivity(cs_hours, msc_hours, b2a_hours, random_hours) {
         console.log(response);
     }).fail(function(response) {
         // error message
-        alert("Ajax fail, see logs");
+        console.log("Ajax fail, see logs");
     });
 }
 
 function logHabits(water_habit, fruit_habit, supplements_habit, calories_habit) {
     /**
-     * Log habitsto database
+     * Log habits to database
      */
     // ajax call to send log details to php file
     url = "ajax.php"; 
@@ -140,7 +148,7 @@ function logHabits(water_habit, fruit_habit, supplements_habit, calories_habit) 
         console.log(response);
     }).fail(function(response) {
         // error message
-        alert("Ajax fail, see logs");
+        console.log("Ajax fail, see logs");
     });
 }
 
@@ -159,7 +167,7 @@ function logJournal(j_type, j_focus, j_wins, j_challenges, j_reflect) {
         console.log(response);
     }).fail(function(response) {
         // error message
-        alert("Ajax fail, see logs");
+        console.log("Ajax fail, see logs");
     });
 }
 
@@ -178,6 +186,6 @@ function logMartialArts(martial_title, martial_h1, martial_p1, martial_h2, marti
         console.log(response);
     }).fail(function(response) {
         // error message
-        alert("Ajax fail, see logs");
+        console.log("Ajax fail, see logs");
     });
 }

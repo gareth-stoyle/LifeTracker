@@ -2,6 +2,14 @@ $(function() {
     /**
      * on page load, check if day is sunday or not, run functions to populate page divs
      */
+    let colors = [
+        "purple",
+        "blue",
+        "green",
+        "orange"
+    ];
+    let randomIndex = Math.floor(Math.random() * colors.length);
+    $("body").addClass(colors[randomIndex]);
     const date = new Date();
     let day = date.getDay();
     let type = (day == 7) ? 'weekly' : 'daily';
@@ -29,7 +37,7 @@ function getProductivity(type) {
         let random_total = 0;
         console.log(response);
         $('#productivity_summary').html('');
-        $('#productivity_summary').append("<table class='table table-hover table-sm' id='productivity_table'><thead class='thead-dark'><tr><th>Day</th><th>CS Learning</th><th>Masters</th><th>B2A</th><th>Random</th><th>Total</th></tr></thead></table>");
+        $('#productivity_summary').append("<h2 class='text-center'>Productivity👨🏻‍💻</h2><table class='table table-hover table-sm' id='productivity_table'><thead class='thead-dark'><tr><th>Day</th><th>CS Learning</th><th>Masters</th><th>B2A</th><th>Random</th><th>Total</th></tr></thead></table>");
         $.each(response, function(index, log){
             cs_total += parseFloat(log.comp_sci);
             msc_total += parseFloat(log.masters);
@@ -70,14 +78,14 @@ function getHabits(type) {
         let rows = 0;
         console.log(response);
         $('#habits_summary').html('');
-        $('#habits_summary').append("<table class='table table-hover table-sm' id='habits_table'><thead class='thead-dark'><tr><th>Water</th><th>Fruit</th><th>Supplements</th><th>Calories</th></tr></thead></table>");
+        $('#habits_summary').append("<h2 class='text-center'>Habits📊</h2><table class='table table-hover table-sm' id='habits_table'><thead class='thead-dark'><tr><th>Water</th><th>Fruit</th><th>Supplements</th><th>Calories</th></tr></thead></table>");
         $.each(response, function(index, log){
             rows++;
             water_total += parseFloat(log.water);
             fruit_total += parseFloat(log.fruit);
             supplements_total += parseFloat(log.supplements);
             calories_total += parseFloat(log.calories);
-            $('#habits_table').append(`<tr><td>${htmlEncode(log.water)}</td><td>${htmlEncode(log.fruit)}</td><td>${htmlEncode(log.supplements)}</td><td>${htmlEncode(log.calories)}</td></tr>`);
+            $('#habits_table').append(`<tr><td>${htmlEncode((log.water==1) ? '✅' : '❌')}</td><td>${htmlEncode((log.fruit==1) ? '✅' : '❌')}</td><td>${htmlEncode((log.supplements==1) ? '✅' : '❌')}</td><td>${(htmlEncode(log.calories==1) ? '✅' : '❌')}</td></tr>`);
         });
         $('#habits_table').append(`<tr class='table-secondary'><td>${water_total}</td><td>${fruit_total}</td><td>${supplements_total}</td><td>${calories_total}</td></tr>`);
         if (type == 'weekly') {
@@ -105,9 +113,9 @@ function getJournal() {
         console.log(response);
         $('#journal_summary').html('');
         if (response[0].type == 'daily') {
-            $('#journal_summary').append(`<div class='row'><div class='col-sm-6'><div class='card h-100 journal_summary_reflection'><h4 class='card-header text-white bg-secondary'>Reflection</h4><div class='card-body'><p class='card-text'>${htmlEncode(response[0].reflection)}</p></div></div></div><div class='col-sm-6'><div class='card h-100 journal_summary_focus'><h4 class='card-header text-white bg-secondary'>Tomorrow's Focus</h4><div class='card-body'><p class='card-text'>${htmlEncode(response[0].focus)}</p></div></div></div></div>`);
+            $('#journal_summary').append(`<h2 class='text-center'>Journal📙</h2><div class='row'><div class='col-sm-6'><div class='card h-100 journal_summary_reflection'><h4 class='card-header text-white bg-secondary'>Reflection</h4><div class='card-body'><p class='card-text'>${htmlEncode(response[0].reflection)}</p></div></div></div><div class='col-sm-6'><div class='card h-100 journal_summary_focus'><h4 class='card-header text-white bg-secondary'>Tomorrow's Focus</h4><div class='card-body'><p class='card-text'>${htmlEncode(response[0].focus)}</p></div></div></div></div>`);
         } else {
-            $('#journal_summary').append(`<div class='row'><div class='col-sm-4'><div class='card h-100 journal_summary_wins'><h4 class='card-header text-white bg-primary'>Wins</h4><div class='card-body'><p class='card-text'>${htmlEncode(response[0].wins)}</p></div></div></div><div class='col-sm-4'><div class='card h-100 journal_summary_challenges'><h4 class='card-header text-white bg-success'>Challenges</h4><div class='card-body'><p class='card-text'>${htmlEncode(response[0].challenges)}</p></div></div></div><div class='col-sm-4'><div class='card h-100 journal_summary_focus'><h4 class='card-header text-white bg-warning'>Next Week</h4><div class='card-body'><p class='card-text'>${htmlEncode(response[0].focus)}</p></div></div></div></div>`);
+            $('#journal_summary').append(`<h2 class='text-center'>Journal📙</h2><div class='row'><div class='col-sm-4'><div class='card h-100 journal_summary_wins'><h4 class='card-header text-white bg-primary'>Wins</h4><div class='card-body'><p class='card-text'>${htmlEncode(response[0].wins)}</p></div></div></div><div class='col-sm-4'><div class='card h-100 journal_summary_challenges'><h4 class='card-header text-white bg-success'>Challenges</h4><div class='card-body'><p class='card-text'>${htmlEncode(response[0].challenges)}</p></div></div></div><div class='col-sm-4'><div class='card h-100 journal_summary_focus'><h4 class='card-header text-white bg-warning'>Next Week</h4><div class='card-body'><p class='card-text'>${htmlEncode(response[0].focus)}</p></div></div></div></div>`);
         }
     }).fail(function(response) {
         console.log(response);
@@ -127,10 +135,10 @@ function getMartialArts(type) {
         dataType: "json" 
     }).done(function(response){
         console.log(response);
-        let count = 1;
+        let count = 0;
         $('#martial_arts_summary').html('');
         $.each(response, function(index, log){
-            $('#martial_arts_summary').append(`<div class='card h-100'id='martial_arts_${count}'><h3 class='card-header text-white bg-warning'>${htmlEncode(log.title)}</h3><div class='card-body'><h4 class='card-title'>${htmlEncode(log.h1)}</h4><p class='card-text'>${htmlEncode(log.p1)}</p><h4 class='card-title'>${htmlEncode(log.h2)}</h4><p class='card-text'>${htmlEncode(log.p2)}</p><h4 class='card-title'>${htmlEncode(log.h3)}</h4><p class='card-text'>${htmlEncode(log.p3)}</p></div></div>`);
+            $('#martial_arts_summary').append(`<h2 class='text-center'>Martial Arts🥷🏼</h2><div class='card h-100'id='martial_arts_${count}'><h3 class='card-header text-white bg-warning'>${htmlEncode(log.title)}</h3><div class='card-body'><h4 class='card-title'>${htmlEncode(log.h1)}</h4><p class='card-text'>${htmlEncode(log.p1)}</p><h4 class='card-title'>${htmlEncode(log.h2)}</h4><p class='card-text'>${htmlEncode(log.p2)}</p><h4 class='card-title'>${htmlEncode(log.h3)}</h4><p class='card-text'>${htmlEncode(log.p3)}</p></div></div>`);
             count++;
         });
     }).fail(function(response) {

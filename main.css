@@ -51,16 +51,37 @@ footer {
     color: black;
     font-size: .8em;
 }
-  
+
+/* Background Gradients */
+/* Purple */
+body.purple {
+    background: linear-gradient(20deg, #6e48aa 0%, #9d50bb 73%, #b176cc 100%);
+}
+
+/* Light Blue */
+body.blue {
+    background: linear-gradient(20deg, #1fa2ff 0%, #12d8fa 73%, #a6ffcb 100%);
+}
+
+/* Green */
+body.green {
+    background: linear-gradient(20deg, #56ab2f 0%, #a8e063 73%, #dce356 100%);
+}
+
+/* Tangerine */
+body.orange {
+    background: linear-gradient(20deg, #db5041 0%, #ff7566 73%, #fe8a5b 100%);
+}
+
 
 /* General */
 
-body {
+/* body {
     background: rgb(34,193,195);
     background: radial-gradient(circle, rgba(34,193,195,1) 0%, rgba(87,253,45,1) 100%);
     background: -webkit-radial-gradient(circle, rgba(34,193,195,1) 0%, rgba(87,253,45,1) 100%);
     background: -moz-radial-gradient(circle, rgba(34,193,195,1) 0%, rgba(87,253,45,1) 100%);
-}
+} */
 
 .main {
     color: black;
@@ -106,6 +127,19 @@ body {
     margin-bottom: 30px;
 }
 
+.form-check {
+    width: 45%;
+    display: inline-block;
+}
+
+#productivity_summary {
+    margin-top: 30px;
+}
+
+/* .btn-group {
+    margin: 0 auto;
+    width: 100%;
+} */
 
 /* Responsiveness */
 @media screen and (max-width: 800px) {
@@ -148,5 +182,9 @@ body {
 
     .col-sm-6, .col-sm-4 {
         margin-bottom: 40px;
+    }
+
+    .btn-dark, .btn-danger {
+        width: 100%;
     }
 }

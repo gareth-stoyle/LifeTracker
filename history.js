@@ -1,17 +1,24 @@
-$(function() {
-    /**
-     * run functions to populate page divs
-     */
-    getProductivityHistory();
-    getHabitsHistory();
-    getJournalHistory();
-    getMartialArtsHistory();
+$(document).ready(function() {
+    let colors = [
+      "purple",
+      "blue",
+      "green",
+      "orange"
+    ];
+    let randomIndex = Math.floor(Math.random() * colors.length);
+    $("body").addClass(colors[randomIndex]);
 });
 
-function getProductivityHistory() {
+$(document).on('click', '#getProductivityHistory', function(e){
     /**
      * Retrieve all productivity logs from db
     */
+    // cancel the event from doing its default action
+    e.preventDefault();
+    $('#productivity_summary').html('');
+    $('#habits_summary').html('');
+    $('#journal_summary').html('');
+    $('#martial_arts_summary').html('');
     url = "ajax.php";
     // ajax call to retrieve logs using php file
     $.ajax({
@@ -25,8 +32,7 @@ function getProductivityHistory() {
         let b2a_total = 0;
         let random_total = 0;
         console.log(response);
-        $('#productivity_summary').html('');
-        $('#productivity_summary').append("<table class='table table-hover table-sm' id='productivity_table'><thead class='thead-dark'><tr><th>Day</th><th>CS Learning</th><th>Masters</th><th>B2A</th><th>Random</th><th>Total</th></tr></thead></table>");
+        $('#productivity_summary').append("<h2 class='text-center'>Productivity👨🏻‍💻</h2><table class='table table-hover table-sm' id='productivity_table'><thead class='thead-dark'><tr><th>Day</th><th>CS Learning</th><th>Masters</th><th>B2A</th><th>Random</th><th>Total</th></tr></thead></table>");
         $.each(response, function(index, log){
             cs_total += parseFloat(log.comp_sci);
             msc_total += parseFloat(log.masters);
@@ -49,12 +55,18 @@ function getProductivityHistory() {
     }).fail(function(response) {
         console.log(response);
     });
-}
+});
 
-function getHabitsHistory() {
+$(document).on('click', '#getHabitsHistory', function(e){
     /**
      * Retrieve all habit logs from db
     */
+    // cancel the event from doing its default action
+    e.preventDefault();
+    $('#productivity_summary').html('');
+    $('#habits_summary').html('');
+    $('#journal_summary').html('');
+    $('#martial_arts_summary').html('');
     url = "ajax.php";
     // ajax call to retrieve logs using php file
     $.ajax({
@@ -68,14 +80,13 @@ function getHabitsHistory() {
         let supplements_total = 0;
         let calories_total = 0;
         console.log(response);
-        $('#habits_summary').html('');
-        $('#habits_summary').append("<table class='table table-hover table-sm' id='habits_table'><thead class='thead-dark'><tr><th>Water</th><th>Fruit</th><th>Supplements</th><th>Calories</th></tr></thead></table>");
+        $('#habits_summary').append("<h2 class='text-center'>Habits📊</h2><table class='table table-hover table-sm' id='habits_table'><thead class='thead-dark'><tr><th>Water</th><th>Fruit</th><th>Supplements</th><th>Calories</th></tr></thead></table>");
         $.each(response, function(index, log){
             water_total += parseFloat(log.water);
             fruit_total += parseFloat(log.fruit);
             supplements_total += parseFloat(log.supplements);
             calories_total += parseFloat(log.calories);
-            $('#habits_table').append(`<tr><td>${htmlEncode(log.water)}</td><td>${htmlEncode(log.fruit)}</td><td>${htmlEncode(log.supplements)}</td><td>${htmlEncode(log.calories)}</td></tr>`);
+            $('#habits_table').append(`<tr><td>${htmlEncode((log.water==1) ? '✅' : '❌')}</td><td>${htmlEncode((log.fruit==1) ? '✅' : '❌')}</td><td>${htmlEncode((log.supplements==1) ? '✅' : '❌')}</td><td>${htmlEncode((log.calories==1) ? '✅' : '❌')}</td></tr>`);
             let date = new Date(log.date).toLocaleDateString('en-UK', { weekday: 'long' });
             if (date == 'Sunday') {
                 $('#habits_table').append(`<tr class='table-secondary' ><td>${water_total}</td><td>${fruit_total}</td><td>${supplements_total}</td><td>${calories_total}</td></tr>`);
@@ -89,12 +100,18 @@ function getHabitsHistory() {
     }).fail(function(response) {
         console.log(response);
     });
-}
+});
 
-function getJournalHistory() {
+$(document).on('click', '#getJournalHistory', function(e){
     /**
      * Retrieve all journal logs from db
     */
+    // cancel the event from doing its default action
+    e.preventDefault();
+    $('#productivity_summary').html('');
+    $('#habits_summary').html('');
+    $('#journal_summary').html('');
+    $('#martial_arts_summary').html('');
     url = "ajax.php";
     // ajax call to retrieve logs using php file
     $.ajax({
@@ -104,9 +121,8 @@ function getJournalHistory() {
         dataType: "json" 
     }).done(function(response){
         console.log(response);
-        $('#journal_summary').html('');
         let month = new Date(response[0].date).toLocaleDateString('en-UK', { month: 'long' });
-        $('#journal_summary').append(`<h3>${month}</h3>`);
+        $('#journal_summary').append(`<h2 class='text-center'>Journal📙</h2><h3>${month}</h3>`);
         $.each(response, function(index, log){
             let month1 = new Date(response[0].date).toLocaleDateString('en-UK', { month: 'long' });
             let month2 = month1.slice();
@@ -125,12 +141,18 @@ function getJournalHistory() {
     }).fail(function(response) {
         console.log(response);
     });
-}
+});
 
-function getMartialArtsHistory(type) {
+$(document).on('click', '#getMartialArtsHistory', function(e){
     /**
      * Retrieve all martial arts logs from db
     */
+    // cancel the event from doing its default action
+    e.preventDefault();
+    $('#productivity_summary').html('');
+    $('#habits_summary').html('');
+    $('#journal_summary').html('');
+    $('#martial_arts_summary').html('');
     url = "ajax.php";
     // ajax call to retrieve logs using php file
     $.ajax({
@@ -141,9 +163,8 @@ function getMartialArtsHistory(type) {
     }).done(function(response){
         console.log(response);
         let count = 1;
-        $('#martial_arts_summary').html('');
         let month = new Date(response[0].date).toLocaleDateString('en-UK', { month: 'long' });
-        $('#martial_arts_summary').append(`<h3>${month}</h3>`);
+        $('#martial_arts_summary').append(`<h2 class='text-center'>Martial Arts🥷🏼</h2><h3>${month}</h3>`);
         $.each(response, function(index, log){
             let month1 = new Date(response[0].date).toLocaleDateString('en-UK', { month: 'long' });
             let month2 = month1.slice();
@@ -157,7 +178,7 @@ function getMartialArtsHistory(type) {
     }).fail(function(response) {
         console.log(response);
     });
-}
+});
 
 
 function htmlEncode(str){

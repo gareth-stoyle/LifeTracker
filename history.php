@@ -12,6 +12,14 @@
 <body>
     <?php include 'header.php';?>
     <div class="main">
+        <div class="text-center">
+            <div class="btn-group text-center" id="history_buttons">
+                <input id="getProductivityHistory" class="btn btn-primary btn-lg" type="button" value="Productivity">
+                <input id="getHabitsHistory" class="btn btn-warning btn-lg" type="button" value="Habits">
+                <input id="getJournalHistory" class="btn btn-info btn-lg" type="button" value="Journal">
+                <input id="getMartialArtsHistory" class="btn btn-dark btn-leg" type="button" value="Martial Arts">
+            </div>
+        </div>
         <div id="productivity_summary" class="table-responsive"></div>
         <div id="habits_summary" class="table-responsive"></div>
         <div id="journal_summary"></div>
